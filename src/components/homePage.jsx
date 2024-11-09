@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "../styles/homePageStyle.css";
 
 const HeadTitle = () => {
   const [score, setScore] = useState(0);
@@ -19,8 +20,9 @@ const HeadTitle = () => {
           const res2 = await fetch(data.results[temp[i]].url);
           const data2 = await res2.json();
           temp2.push(data2);
+          setPokemonData([...temp2]);
         }
-        setPokemonData([...temp2]);
+        // setPokemonData([...temp2]);
       } catch (error) {
         console.log(error);
       }
@@ -73,30 +75,41 @@ const HeadTitle = () => {
   };
 
   return (
-    <div>
-      <div className="headerLeft">
-        <h1>Pokemon Memory Game</h1>
-        <div>
-          Get points by clicking on an image but don't click on any more than
-          once!
+    <>
+      <div className="header">
+        <div className="headerLeft">
+          <h1>Pokemon Memory Game</h1>
+          <div>
+            Get points by clicking on an image but don't click on any more than
+            once!
+          </div>
+        </div>
+        <div className="headerRight">
+          <div>Score: {score}</div>
+          <div>Best score: {bestScore}</div>
         </div>
       </div>
-      <div className="headerRight">
-        <div>{score}</div>
-        <div>{bestScore}</div>
+      <div className="pokemonCards">
+        {pokemonData.map((pokemon) => {
+          return (
+            <div
+              key={pokemon.id}
+              onClick={() => handleClick(pokemon.id)}
+              className="card"
+            >
+              <img
+                src={pokemon.sprites.front_default}
+                alt={`${pokemon.name} img`}
+              />
+              <br />
+              <div id={pokemon.id}>{`${pokemon.name
+                .charAt(0)
+                .toUpperCase()}${pokemon.name.slice(1)}`}</div>
+            </div>
+          );
+        })}
       </div>
-      {pokemonData.map((pokemon) => {
-        return (
-          <div key={pokemon.id} onClick={() => handleClick(pokemon.id)}>
-            <div id={pokemon.id}>{pokemon.name}</div>
-            <img
-              src={pokemon.sprites.front_default}
-              alt={`${pokemon.name} img`}
-            />
-          </div>
-        );
-      })}
-    </div>
+    </>
   );
 };
 
