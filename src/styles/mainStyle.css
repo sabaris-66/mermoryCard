@@ -1,0 +1,12 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  border: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background-color: yellowgreen;
+}
